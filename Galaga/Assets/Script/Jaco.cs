@@ -39,6 +39,7 @@ public class Jaco : MonoBehaviour
     }
     private void OnEnable()
     {
+        PlayerController.PlayerDie += IsPlayerDie;
         locate = new Vector3(xLocate, 0, 6);
         xLocate--;
         if (xLocate < -4) xLocate = 4;
@@ -49,6 +50,7 @@ public class Jaco : MonoBehaviour
 
     private void OnDisable()
     {
+        PlayerController.PlayerDie -= IsPlayerDie;
         transform.rotation = Quaternion.LookRotation(Vector3.zero);
         index = 0;
         CancelInvoke();
@@ -75,5 +77,10 @@ public class Jaco : MonoBehaviour
         ObjPool.enemyBulletIndex++;
         if (ObjPool.enemyBulletIndex == ObjPool.enemyBulletPool.Length)
             ObjPool.enemyBulletIndex = 0;
+    }
+    void IsPlayerDie()
+    {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
     }
 }

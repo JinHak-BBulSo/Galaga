@@ -5,6 +5,9 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerController : MonoBehaviour
 {
+    public delegate void PlayerDieHandler();
+    public static event PlayerDieHandler PlayerDie;
+
     private float h;
     private Rigidbody playerRigid;
     private float speed = 7f;
@@ -78,6 +81,7 @@ public class PlayerController : MonoBehaviour
         if (hp == 0)
         {
             gameManager.GameOver();
+            PlayerDie();
             gameObject.SetActive(false);
         }
     }

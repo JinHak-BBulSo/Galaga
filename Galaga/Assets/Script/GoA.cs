@@ -35,12 +35,14 @@ public class GoA : MonoBehaviour
 
     private void OnEnable()
     {
+        PlayerController.PlayerDie += IsPlayerDie;
         bulletRate = Random.Range(1f, 1.7f);
         InvokeRepeating("Move", 0f, 0.15f);
     }
 
     private void OnDisable()
     {
+        PlayerController.PlayerDie -= IsPlayerDie;
         CancelInvoke();
     }
 
@@ -64,5 +66,10 @@ public class GoA : MonoBehaviour
         ObjPool.enemyBulletIndex++;
         if (ObjPool.enemyBulletIndex == ObjPool.enemyBulletPool.Length)
             ObjPool.enemyBulletIndex = 0;
+    }
+    void IsPlayerDie()
+    {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
     }
 }

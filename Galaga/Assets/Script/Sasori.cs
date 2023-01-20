@@ -37,12 +37,14 @@ public class Sasori : MonoBehaviour
     }
     private void OnEnable()
     {
+        PlayerController.PlayerDie += IsPlayerDie;
         bulletRate = Random.Range(1f, 1.7f);
         InvokeRepeating("Move", 0f, 0.5f);
     }
 
     private void OnDisable()
     {
+        PlayerController.PlayerDie -= IsPlayerDie;
         CancelInvoke();
     }
 
@@ -64,5 +66,10 @@ public class Sasori : MonoBehaviour
         ObjPool.enemyBulletIndex++;
         if (ObjPool.enemyBulletIndex == ObjPool.enemyBulletPool.Length)
             ObjPool.enemyBulletIndex = 0;
+    }
+    void IsPlayerDie()
+    {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
     }
 }

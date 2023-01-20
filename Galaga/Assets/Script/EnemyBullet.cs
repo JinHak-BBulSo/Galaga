@@ -15,9 +15,13 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnEnable()
     {
+        PlayerController.PlayerDie += IsPlayerDie;
         StartCoroutine(ReturnPool());
     }
-
+    private void OnDisable()
+    {
+        PlayerController.PlayerDie -= IsPlayerDie;
+    }
     IEnumerator ReturnPool()
     {
         yield return new WaitForSeconds(2.5f);
@@ -32,5 +36,10 @@ public class EnemyBullet : MonoBehaviour
             StopAllCoroutines();
             gameObject.SetActive(false);
         }
+    }
+    void IsPlayerDie()
+    {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
     }
 }

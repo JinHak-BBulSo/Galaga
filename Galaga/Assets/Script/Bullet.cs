@@ -17,7 +17,13 @@ public class Bullet : MonoBehaviour
 
     private void OnEnable()
     {
+        PlayerController.PlayerDie += IsPlayerDie;
         StartCoroutine(ReturnPool());
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.PlayerDie -= IsPlayerDie;
     }
 
     IEnumerator ReturnPool()
@@ -35,5 +41,11 @@ public class Bullet : MonoBehaviour
             other.gameObject.SetActive(false);
             gameObject.SetActive(false);
         }
+    }
+
+    void IsPlayerDie()
+    {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
     }
 }

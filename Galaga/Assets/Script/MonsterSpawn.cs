@@ -28,6 +28,15 @@ public class MonsterSpawn : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        PlayerController.PlayerDie += IsPlayerDie;
+    }
+    private void OnDisable()
+    {
+        PlayerController.PlayerDie -= IsPlayerDie;
+    }
+
     void Spawn()
     {
         switch (spawnIndex)
@@ -81,5 +90,10 @@ public class MonsterSpawn : MonoBehaviour
     {
         yield return new WaitForSeconds(10);
         spawnPossible = true;
+    }
+    void IsPlayerDie()
+    {
+        CancelInvoke();
+        gameObject.SetActive(false);
     }
 }
